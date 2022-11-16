@@ -12,7 +12,7 @@ if(1)
 
 	env.fomoChess = {
 		contract: '0xfebF06C07094a18757681b25964A88E3AAb0B6C1',
-		ABI: ABI.fomoChess
+		ABI: ABI
 	}
 }else{
 	env = {
