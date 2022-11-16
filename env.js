@@ -7,11 +7,12 @@ if(1)
 	env = {
 		live: false,
 		test: true,
-		ethProviders:[/*'https://speedy-nodes-nyc.moralis.io/'+keys.moralis+'/eth/ropsten',*/ 'https://goerli.infura.io/v3/'+keys.infura]
+		ethProviders:['https://goerli.infura.io/v3/'+keys.infura],
+		etcProviders:['https://www.ethercluster.com/mordor']
 	}
 
 	env.fomoChess = {
-		contract: '0xfebF06C07094a18757681b25964A88E3AAb0B6C1',
+		contract: '0xeE82119B32af71B92947fFF5cFfdB78e4849d40A',
 		ABI: ABI
 	}
 }else{

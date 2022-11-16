@@ -5,7 +5,7 @@ var ETHERS =  require('ethers')
 
 var _ = {} //store global variables from database
 
-const _web3 = new Web3(env.ethProviders[0])
+const _web3 = new Web3(env.etcProviders[0])
 var blue_machine = _web3.eth.accounts.wallet.add(keys.wallet);
 var machineAddress = blue_machine.address;
 var gotFirstBlockAlready = false;
@@ -59,7 +59,7 @@ function catch_events(){
 				setTimeout(catch_events,3000)
 			}
 		}else{
-			console.log("Establishing the first block to handle")
+			console.log("Establishing the first block to handle:", latestBlock)
 			_.latest_block_scanned = latestBlock
 			gotFirstBlockAlready = true
 			catch_events()
