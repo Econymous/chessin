@@ -75,7 +75,7 @@ function ROLL(event){
 	console.log("Roll Dice")
 	timeOfLastRoll = Date.now();
 	insistTX(_web3,()=>{
-		return fomoChess_contract.methods.randomness()
+		return fomoChess_contract.methods.randomness( ETHERS.utils.randomBytes(32) )
 	},()=>{
 		console.log("Successful ROLL")
 		catch_events();
