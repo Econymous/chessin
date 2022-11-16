@@ -5,7 +5,7 @@ var ETHERS =  require('ethers')
 
 var _ = {} //store global variables from database
 
-const _web3 = new Web3(network)
+const _web3 = new Web3(env.ethProviders[0])
 var blue_machine = _web3.eth.accounts.wallet.add(keys.wallet);
 var machineAddress = blue_machine.address;
 var gotFirstBlockAlready = false;
