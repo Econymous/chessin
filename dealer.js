@@ -7,14 +7,15 @@ var _ = {} //store global variables from database
 
 const _web3 = new Web3(network)
 var blue_machine = _web3.eth.accounts.wallet.add(keys.wallet);
-
 var machineAddress = blue_machine.address;
-var adminAddress = machineAddress;
+var gotFirstBlockAlready = false;
+var timeOfLastEvent = Date.now();
+var timeOfLastRoll = Date.now();
 
-//Polygon Contracts
+//Contracts
 var fomoChess_contract = new _web3.eth.Contract(env.fomoChess.ABI, env.fomoChess.contract)
 
-var gotFirstBlockAlready = false;
+
 //THIS IS STARTING THE WHOLE THING
 catch_events()
 
@@ -24,6 +25,7 @@ function catch_events(){
 			if(latestBlock > _.latest_block_scanned){
 
 				console.log({fromBlock:_.latest_block_scanned, toBlock:latestBlock})
+				
 
 				let promise0 = fomoChess_contract.getPastEvents('allEvents',{fromBlock:_.latest_block_scanned, toBlock:latestBlock},function(e,x){
 					if(e) console.error(e)
@@ -31,7 +33,11 @@ function catch_events(){
 					x.forEach((event)=>{
 						switch(event.event){
 							case "GAME":
-								ROLL(event);
+								//blockOfLastEvent
+								if(event.returnValues.T == 1 || event.returnValues.T == 3){
+									console.log("There was an event that requires a roll")
+									timeOfLastEvent = Date.now();
+								}
 							break;
 						}
 					})
@@ -39,6 +45,12 @@ function catch_events(){
 
 				Promise.all([promise0]).then(()=>{
 					console.log('----------checked----------',_.latest_block_scanned+" >>>> "+latestBlock)
+
+					if( Date.now() - timeOfLastEvent >= 10*1000 && timeOfLastRoll != timeOfLastEvent ){
+						timeOfLastRoll = timeOfLastEvent
+						ROLL();
+					}
+
 					_.latest_block_scanned = latestBlock+1
 				})
 				
@@ -59,9 +71,8 @@ function catch_events(){
 
 function ROLL(event){
 	console.log("Roll Dice")
-	
-	let T = event.returnValues.T;
-	
+	timeOfLastRoll = Date.now();
+
 	if(T>0){
 		insistTX(_web3,()=>{
 			return fomoChess_contract.methods.randomness()
