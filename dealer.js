@@ -24,8 +24,7 @@ function catch_events(){
 		if(gotFirstBlockAlready){
 			if(latestBlock > _.latest_block_scanned){
 
-				console.log({fromBlock:_.latest_block_scanned, toBlock:latestBlock})
-				
+				//console.log({fromBlock:_.latest_block_scanned, toBlock:latestBlock})
 
 				let promise0 = fomoChess_contract.getPastEvents('allEvents',{fromBlock:_.latest_block_scanned, toBlock:latestBlock},function(e,x){
 					if(e) console.error(e)
@@ -49,6 +48,8 @@ function catch_events(){
 					if( Date.now() - timeOfLastEvent >= 10*1000 && timeOfLastRoll != timeOfLastEvent ){
 						timeOfLastRoll = timeOfLastEvent
 						ROLL();
+					}else{
+						catch_events();
 					}
 
 					_.latest_block_scanned = latestBlock+1
@@ -58,6 +59,7 @@ function catch_events(){
 				setTimeout(catch_events,3000)
 			}
 		}else{
+			console.log("Establishing the first block to handle")
 			_.latest_block_scanned = latestBlock
 			gotFirstBlockAlready = true
 			catch_events()
@@ -72,16 +74,13 @@ function catch_events(){
 function ROLL(event){
 	console.log("Roll Dice")
 	timeOfLastRoll = Date.now();
+	insistTX(_web3,()=>{
+		return fomoChess_contract.methods.randomness()
+	},()=>{
+		console.log("Successful ROLL")
+		catch_events();
+	})
 
-	if(T>0){
-		insistTX(_web3,()=>{
-			return fomoChess_contract.methods.randomness()
-		},()=>{
-			console.log("Successful ROLL")
-		})
-	}else{
-		console.log("Someone accepted/pulled-out-of game")
-	}
 }
 
 
