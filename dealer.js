@@ -73,7 +73,7 @@ function catch_events(){
 
 function ROLL(event){
 	console.log("Roll Dice")
-	timeOfLastRoll = Date.now();
+	
 	insistTX(_web3,()=>{
 		return fomoChess_contract.methods.randomness( ETHERS.utils.randomBytes(32) )
 	},()=>{
