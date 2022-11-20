@@ -17,6 +17,7 @@ var fomoChess_contract = new _web3.eth.Contract(env.fomoChess.ABI, env.fomoChess
 
 
 //THIS IS STARTING THE WHOLE THING
+ROLL();
 catch_events()
 
 function catch_events(){
