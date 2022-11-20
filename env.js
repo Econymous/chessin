@@ -12,7 +12,7 @@ if(1)
 	}
 
 	env.fomoChess = {
-		contract: '0x2d36854f8d8A1AaE134B955700F375347513d7E1',
+		contract: '0xC7d7B5D130528a94d4cfb9e4B69e1EA6b2a8Da8e',
 		ABI: ABI
 	}
 }else{

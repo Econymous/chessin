@@ -34,7 +34,7 @@ function catch_events(){
 						switch(event.event){
 							case "GAME":
 								//blockOfLastEvent
-								if(event.returnValues.T == 1 || event.returnValues.T == 3){
+								if(event.returnValues.T ){
 									console.log("There was an event that requires a roll")
 									timeOfLastEvent = Date.now();
 								}
